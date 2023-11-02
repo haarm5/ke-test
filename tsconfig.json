@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "lib": ["dom", "ES6", "ES2022"]
+  },
+  "include": ["./src/**/*"]
+}
