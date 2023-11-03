@@ -1,4 +1,4 @@
-<script setup lang="ts"></script>
+<script>
 import { ref } from 'vue'
 import { reactive } from 'vue'
 
