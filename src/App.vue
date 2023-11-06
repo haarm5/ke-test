@@ -4,9 +4,7 @@ import { reactive } from 'vue'
 
 export default {
   data() {
-    return {
-      maxVol: 1
-    }
+    return {}
   },
   computed: {
     // มองเป็น resolver
@@ -20,11 +18,9 @@ export default {
     audioElement1.play()
     audioElement2.play()
 
-    const volumeSlider = document.getElementById('volumeSlider')
-    volumeSlider.addEventListener('input', (e) => {
+    const volumeVocals = document.getElementById('volumeVocals')
+    volumeVocals.addEventListener('input', (e) => {
       const volume = parseFloat(e.target.value)
-      this.maxVol = volume
-      audioElement1.volume = volume
       audioElement2.volume = volume
     })
 
@@ -112,15 +108,15 @@ export default {
     Your browser does not support the audio element.
   </audio>
 
-  <label style="margin-top: 20px">เพิ่มลดเสียง</label>
+  <label style="margin-top: 20px">เพิ่มลดเสียงร้อง</label>
   <br />
-  <input type="range" id="volumeSlider" min="0" max="1" :step="maxVol / 20" value="1" />
+  <input type="range" id="volumeVocals" min="0" max="1" step="0.05" value="1" />
 
   <br />
 
-  <label style="margin-top: 20px">เพิ่มลดเสียง</label>
+  <label style="margin-top: 20px">เพิ่มลดเสียงดนตรี</label>
   <br />
-  <input type="range" id="volumeMusic" min="0" :max="1" :step="0.05" :value="1" />
+  <input type="range" id="volumeMusic" min="0" max="1" step="0.05" value="1" />
   <br />
   <button @click="muteMusic" style="margin-top: 20px">เปิด-ปิด เสียงเพลง</button>
   <br />
