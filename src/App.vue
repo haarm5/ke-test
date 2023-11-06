@@ -3,17 +3,37 @@ import { ref } from 'vue'
 import { reactive } from 'vue'
 
 export default {
+  data() {
+    return {
+      maxVol: 1
+    }
+  },
   computed: {
     // มองเป็น resolver
   },
   mounted() {
     // มองเป็น ngOninit
     const videoElement = this.$refs.videoElement
-    videoElement.play()
     const audioElement1 = this.$refs.audioElement1
-    audioElement1.play()
     const audioElement2 = this.$refs.audioElement2
+    videoElement.play()
+    audioElement1.play()
     audioElement2.play()
+
+    const volumeSlider = document.getElementById('volumeSlider')
+    volumeSlider.addEventListener('input', (e) => {
+      const volume = parseFloat(e.target.value)
+      this.maxVol = volume
+      audioElement1.volume = volume
+      audioElement2.volume = volume
+    })
+
+    const volumeMusic = document.getElementById('volumeMusic')
+    volumeMusic.addEventListener('input', (e) => {
+      const volume = parseFloat(e.target.value)
+      audioElement1.volume = volume
+      // audioElement2.volume = volume
+    })
   },
   methods: {
     // เขียน methods ในนี้
@@ -35,11 +55,19 @@ export default {
     },
     onSeeked() {
       const videoElement = this.$refs.videoElement
-      this.selectedTime = videoElement.currentTime
       const audioElement1 = this.$refs.audioElement1
       const audioElement2 = this.$refs.audioElement2
+
+      this.selectedTime = videoElement?.currentTime
       audioElement1.currentTime = this.selectedTime
       audioElement2.currentTime = this.selectedTime
+      videoElement.pause()
+      audioElement1.pause()
+      audioElement2.pause()
+
+      videoElement.play()
+      audioElement2.play()
+      audioElement1.play()
     },
     onVideoPlay() {
       const audioElement1 = this.$refs.audioElement1
@@ -83,13 +111,27 @@ export default {
     <source src="./assets/vocals.mp3" type="audio/mp3" />
     Your browser does not support the audio element.
   </audio>
-  <button @click="muteMusic">ปิดเสียงเพลง</button>
-  <br>
-  <button @click="muteVocals">ปิดเสียงร้อง</button>
+
+  <label style="margin-top: 20px">เพิ่มลดเสียง</label>
+  <br />
+  <input type="range" id="volumeSlider" min="0" max="1" :step="maxVol / 20" value="1" />
+
+  <br />
+
+  <label style="margin-top: 20px">เพิ่มลดเสียง</label>
+  <br />
+  <input type="range" id="volumeMusic" min="0" :max="1" :step="0.05" :value="1" />
+  <br />
+  <button @click="muteMusic" style="margin-top: 20px">เปิด-ปิด เสียงเพลง</button>
+  <br />
+  <button @click="muteVocals">เปิด-ปิด เสียงร้อง</button>
 </template>
 
 <style>
-.title {
-  color: red;
+video::-webkit-media-controls-volume-slider {
+  display: none !important;
+}
+video::-webkit-media-controls-mute-button {
+  display: none !important;
 }
 </style>
